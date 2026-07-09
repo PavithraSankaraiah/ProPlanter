@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProPlanter — Loading</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #071407;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', sans-serif;
+  overflow: hidden;
+}
+
+/* ── Ambient background glow ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(46,125,50,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 85%, rgba(27,94,32,0.45) 0%, transparent 60%);
+  animation: glowPulse 3s ease-in-out infinite alternate;
+}
+@keyframes glowPulse {
+  0%   { opacity: 0.7; }
+  100% { opacity: 1.0; }
+}
+
+/* ── Floating particles ── */
+.particles { position: fixed; inset: 0; pointer-events: none; }
+.particle {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+}
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+  8%   { opacity: 0.5; }
+  92%  { opacity: 0.5; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ── Main loading container ── */
+.loader {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 0;
+  animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── Logo ring ── */
+.logo-ring {
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2e7d32, #0a3d0a);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow:
+    0 0 0 6px rgba(102,187,106,0.2),
+    0 0 0 14px rgba(102,187,106,0.1),
+    0 0 0 24px rgba(102,187,106,0.05),
+    0 30px 80px rgba(0,0,0,0.6);
+  animation: ringBreath 2s ease-in-out infinite;
+}
+@keyframes ringBreath {
+  0%,100% { box-shadow: 0 0 0 6px rgba(102,187,106,0.2), 0 0 0 14px rgba(102,187,106,0.1), 0 0 0 24px rgba(102,187,106,0.05), 0 30px 80px rgba(0,0,0,0.6); }
+  50%     { box-shadow: 0 0 0 10px rgba(102,187,106,0.35), 0 0 0 22px rgba(102,187,106,0.15), 0 0 0 36px rgba(102,187,106,0.06), 0 30px 90px rgba(0,0,0,0.6); }
+}
+
+.logo-emoji {
+  font-size: 4rem;
+  animation: sprout 0.8s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+}
+@keyframes sprout {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* ── Title ── */
+.logo-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 3.8rem;
+  line-height: 1;
+  background: linear-gradient(135deg, #a5d6a7 0%, #f9a825 55%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  margin-bottom: 0.4rem;
+  animation: titleSlide 0.6s 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes titleSlide {
+  0%   { transform: translateY(15px); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+.logo-sub {
+  font-size: 0.72rem; font-weight: 900;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 5px; text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  animation: titleSlide 0.6s 0.5s both;
+}
+
+/* ── Stage progress dots ── */
+.stage-dots {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  animation: titleSlide 0.5s 0.6s both;
+}
+.sdot {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.sdot-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,255,255,0.1);
+  transition: all 0.4s ease;
+}
+.sdot-circle.active {
+  background: rgba(102,187,106,0.2);
+  border-color: #66bb6a;
+  box-shadow: 0 0 12px rgba(102,187,106,0.4);
+  animation: dotPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes dotPop {
+  0%   { transform: scale(0.8); }
+  100% { transform: scale(1); }
+}
+.sdot-name {
+  font-size: 0.5rem; font-weight: 900;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.sdot-arrow {
+  color: rgba(255,255,255,0.15);
+  font-size: 0.9rem; margin-top: -4px;
+}
+
+/* ── Loading bar ── */
+.bar-wrap {
+  width: 280px; height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px; overflow: hidden;
+  margin-bottom: 1rem;
+  animation: titleSlide 0.5s 0.7s both;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2e7d32, #66bb6a, #f9a825);
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.15s ease;
+  box-shadow: 0 0 8px rgba(102,187,106,0.5);
+}
+
+/* ── Loading text ── */
+.loading-text {
+  font-size: 0.78rem; font-weight: 800;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px; text-transform: uppercase;
+  height: 20px;
+  animation: titleSlide 0.5s 0.8s both;
+}
+
+/* ── Fade out ── */
+body.fade-out {
+  animation: fadeOut 0.5s ease forwards;
+}
+@keyframes fadeOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="loader">
+  <!-- Logo -->
+  <div class="logo-ring">
+    <span class="logo-emoji">🌱</span>
+  </div>
+  <h1 class="logo-title">ProPlanter</h1>
+  <p class="logo-sub">The Ultimate Plant Board Game</p>
+
+  <!-- Stage dots -->
+  <div class="stage-dots">
+    <div class="sdot">
+      <div class="sdot-circle" id="sd0">🏺</div>
+      <div class="sdot-name">Pot</div>
+    </div>
+    <div class="sdot-arrow">›</div>
+    <div class="sdot">
+      <div class="sdot-circle" id="sd1">🌱</div>
+      <div class="sdot-name">Soil</div>
+    </div>
+    <div class="sdot-arrow">›</div>
+    <div class="sdot">
+      <div class="sdot-circle" id="sd2">🌰</div>
+      <div class="sdot-name">Seed</div>
+    </div>
+    <div class="sdot-arrow">›</div>
+    <div class="sdot">
+      <div class="sdot-circle" id="sd3">🌿</div>
+      <div class="sdot-name">Manure</div>
+    </div>
+    <div class="sdot-arrow">›</div>
+    <div class="sdot">
+      <div class="sdot-circle" id="sd4">🌳</div>
+      <div class="sdot-name">Grow</div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="bar-wrap">
+    <div class="bar-fill" id="barFill"></div>
+  </div>
+  <div class="loading-text" id="loadingText">Loading game...</div>
+</div>
+
+<script>
+// ── Floating particles ──
+var emojis = ['🍃','🌿','🍀','🌱','🌾'];
+var particles = document.getElementById('particles');
+for (var i = 0; i < 16; i++) {
+  var p = document.createElement('span');
+  p.className = 'particle';
+  p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.fontSize = (1.0 + Math.random() * 1.2) + 'rem';
+  p.style.animationDuration = (8 + Math.random() * 10) + 's';
+  p.style.animationDelay = (Math.random() * 6) + 's';
+  particles.appendChild(p);
+}
+
+// ── Loading sequence ──
+var messages = [
+  'Preparing the soil...',
+  'Planting the seeds...',
+  'Adding fertiliser...',
+  'Watering the plant...',
+  'Ready to grow! 🌱',
+];
+
+var dots   = [0,1,2,3,4];
+var bar    = document.getElementById('barFill');
+var text   = document.getElementById('loadingText');
+var step   = 0;
+var target = 'index.html'; // where to go after loading
+
+// Check if coming from index to go to game, or just starting
+// index.html sets sessionStorage before redirecting here
+var dest = sessionStorage.getItem('proplanter_dest') || 'index.html';
+sessionStorage.removeItem('proplanter_dest');
+
+function nextStep() {
+  if (step >= 5) {
+    // All done — fade out and redirect
+    setTimeout(function() {
+      document.body.classList.add('fade-out');
+      setTimeout(function() {
+        window.location.href = dest;
+      }, 500);
+    }, 300);
+    return;
+  }
+
+  // Activate dot
+  if (step < 5) {
+    var dotEl = document.getElementById('sd' + step);
+    if (dotEl) dotEl.classList.add('active');
+  }
+
+  // Update bar
+  bar.style.width = ((step + 1) / 5 * 100) + '%';
+
+  // Update text
+  text.textContent = messages[step] || 'Loading...';
+
+  step++;
+  setTimeout(nextStep, step === 5 ? 400 : 350);
+}
+
+// Start after short delay
+setTimeout(nextStep, 500);
+</script>
+</body>
+</html>

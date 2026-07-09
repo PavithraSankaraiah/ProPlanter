@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pro Planter Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4CAF50, #2e7d32);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .login-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2e7d32;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #388e3c;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>🌱 Pro Planter Login</h2>
+
+    <form id="loginForm">
+        <input type="text" id="email" placeholder="Enter Email">
+        <div class="error" id="emailError"></div>
+
+        <input type="password" id="password" placeholder="Enter Password">
+        <div class="error" id="passwordError"></div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="success" id="successMsg"></div>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let email = document.getElementById("email").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    let emailError = document.getElementById("emailError");
+    let passwordError = document.getElementById("passwordError");
+    let successMsg = document.getElementById("successMsg");
+
+    // Clear old messages
+    emailError.textContent = "";
+    passwordError.textContent = "";
+    successMsg.textContent = "";
+
+    let isValid = true;
+
+    // ✅ EMAIL VALIDATION
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email === "") {
+        emailError.textContent = "Email is required";
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        emailError.textContent = "Enter a valid email";
+        isValid = false;
+    }
+
+    // ✅ PASSWORD VALIDATION
+    if (password === "") {
+        passwordError.textContent = "Password is required";
+        isValid = false;
+    } else if (password.length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters";
+        isValid = false;
+    }
+
+    // ✅ LOGIN LOGIC
+    let validEmail = "user@proplanter.com";
+    let validPassword = "123456";
+
+    if (isValid) {
+        if (email === validEmail && password === validPassword) {
+            successMsg.style.color = "green";
+            successMsg.textContent = "Login Successful 🌿";
+
+            // 🔥 REDIRECT
+            setTimeout(() => {
+                window.location.href = "game.html";
+            }, 1000);
+
+        } else {
+            successMsg.style.color = "red";
+            successMsg.textContent = "Invalid Email or Password";
+        }
+    }
+});
+</script>
+
+</body>
+</html>
